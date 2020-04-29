@@ -1,0 +1,5 @@
+{
+	"ws_url":"wss://staging.bitfinex.com/ws/2",
+	"api_key":"INSERT API KEY",
+	"api_secret":"INSERT API SECRET"
+}
