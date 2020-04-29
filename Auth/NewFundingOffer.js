@@ -7,7 +7,7 @@ const apiKey = require('../config.json').api_key
 const apiSecret = require('../config.json').api_secret
 
 //Auth
-const NewOrderSocket = new WebSocket(ws_url);
+const NewOfferSocket = new WebSocket(ws_url);
 const authNonce = Date.now() * 1000 // Generate an ever increasing, single use value. (a timestamp satisfies this criteria)
 const authPayload = 'AUTH' + authNonce // Compile the authentication payload, this is simply the string 'AUTH' prepended to the nonce value
 const authSig = crypto.HmacSHA384(authPayload, apiSecret).toString(crypto.enc.Hex) // The authentication payload is hashed using the private key, the resulting hash is output as a hexadecimal string
@@ -45,7 +45,7 @@ describe('New Funding Offer Tests', function() {
 
         this.timeout(10000)
 
-        NewOrderSocket.onopen = function (event) {
+        NewOfferSocket.onopen = function (event) {
             let payload = JSON.stringify([
                 0,
                 "fon",
@@ -58,12 +58,12 @@ describe('New Funding Offer Tests', function() {
                 "period": period
                 }
                 ])
-            NewOrderSocket.send(JSON.stringify(payloadAuth))
+            NewOfferSocket.send(JSON.stringify(payloadAuth))
             sleep(1000);
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
           };
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -177,7 +177,7 @@ describe('New Funding Offer Tests', function() {
 
             // Target the on message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             if(data[1] == 'fon'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -292,9 +292,9 @@ describe('New Funding Offer Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -408,7 +408,7 @@ describe('New Funding Offer Tests', function() {
 
             // Target the on message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             if(data[1] == 'fon'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -523,9 +523,9 @@ describe('New Funding Offer Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -639,7 +639,7 @@ describe('New Funding Offer Tests', function() {
 
             // Target the on message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             if(data[1] == 'fon'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -754,9 +754,9 @@ it('New FRR Bid should return a correct Notification and Funding Offer Info mess
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -871,7 +871,7 @@ it('New FRR Bid should return a correct Notification and Funding Offer Info mess
             // Target the oc message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             //[0,"foc",[41245527,"fUSD",1588169273000,1588169273000,0,-50,"FRRDELTAVAR",null,null,null,"EXECUTED at FRR delta (50.0)",null,null,null,0,2,0,0,null,0,null]]    
             if(data[1] == 'foc'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -986,9 +986,9 @@ it('New FRR Bid should return a correct Notification and Funding Offer Info mess
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -1102,7 +1102,7 @@ it('New FRR Bid should return a correct Notification and Funding Offer Info mess
 
             // Target the on message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             if(data[1] == 'fon'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -1217,9 +1217,9 @@ it('New FRR Variable Bid should return a correct Notification and Funding Offer 
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -1334,7 +1334,7 @@ it('New FRR Variable Bid should return a correct Notification and Funding Offer 
             // Target the oc message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             //[0,"foc",[41245527,"fUSD",1588169273000,1588169273000,0,-50,"FRRDELTAVAR",null,null,null,"EXECUTED at FRR delta (50.0)",null,null,null,0,2,0,0,null,0,null]]    
             if(data[1] == 'foc'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -1449,9 +1449,9 @@ it('New FRR Variable Bid should return a correct Notification and Funding Offer 
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -1565,7 +1565,7 @@ it('New FRR Variable Bid should return a correct Notification and Funding Offer 
 
             // Target the on message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             if(data[1] == 'fon'){
-                //NewOrderSocket.close();
+                //NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -1680,9 +1680,9 @@ it('New FRR Fixed Bid should return a correct Notification and Funding Offer Inf
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewOfferSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewOfferSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588164952587,"fon-req",null,null,[41245492,null,null,null,50,null,null,null,null,null,null,null,null,null,0.005,2,null,null,null,null,null],null,"SUCCESS","Submitting funding offer of 50.0 USD at 0.5000 for 2 days."]]      
@@ -1797,7 +1797,7 @@ it('New FRR Fixed Bid should return a correct Notification and Funding Offer Inf
             // Target the oc message [0,"fon",[41245492,"fUSD",1588164953000,1588164953000,50,50,"LIMIT",null,null,null,"ACTIVE",null,null,null,0.005,2,0,0,null,0,null]]
             //[0,"foc",[41245527,"fUSD",1588169273000,1588169273000,0,-50,"FRRDELTAVAR",null,null,null,"EXECUTED at FRR delta (50.0)",null,null,null,0,2,0,0,null,0,null]]    
             if(data[1] == 'fon'){
-                //NewOrderSocket.close();
+                NewOfferSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data

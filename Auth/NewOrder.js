@@ -1766,6 +1766,7 @@ describe('New Order Tests', function() {
 
             // Target the on message [0,"on",[1187238101,null,1588148883485,"tBTCUSD",1588148883486,1588148883491,1,1,"EXCHANGE LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,0,null,null,null,"BFX",null,null,null]   
             if(data[1] == 'on'){
+                NewOrderSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
