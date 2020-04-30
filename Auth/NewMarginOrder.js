@@ -7,7 +7,7 @@ const apiKey = require('../config.json').api_key
 const apiSecret = require('../config.json').api_secret
 
 //Auth
-const NewOrderSocket = new WebSocket(ws_url);
+const NewMarginOrderSocket = new WebSocket(ws_url);
 const authNonce = Date.now() * 1000 // Generate an ever increasing, single use value. (a timestamp satisfies this criteria)
 const authPayload = 'AUTH' + authNonce // Compile the authentication payload, this is simply the string 'AUTH' prepended to the nonce value
 const authSig = crypto.HmacSHA384(authPayload, apiSecret).toString(crypto.enc.Hex) // The authentication payload is hashed using the private key, the resulting hash is output as a hexadecimal string
@@ -44,7 +44,7 @@ describe('New Order Tests', function() {
 
         this.timeout(10000)
 
-        NewOrderSocket.onopen = function (event) {
+        NewMarginOrderSocket.onopen = function (event) {
             let payload = JSON.stringify([
                 0,
                 "on",
@@ -56,12 +56,12 @@ describe('New Order Tests', function() {
                 "price": buyPrice.toString()
                 }
                 ])
-            NewOrderSocket.send(JSON.stringify(payloadAuth))
+            NewMarginOrderSocket.send(JSON.stringify(payloadAuth))
             sleep(1000);
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
           };
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -223,7 +223,7 @@ describe('New Order Tests', function() {
 
             // Target the on message [0,"on",[1187238101,null,1588148883485,"tBTCUSD",1588148883486,1588148883491,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,0,null,null,null,"BFX",null,null,null]
             if(data[1] == 'on'){
-                //NewOrderSocket.close();
+                //NewMarginOrderSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
@@ -370,9 +370,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -679,9 +679,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -985,9 +985,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -1292,9 +1292,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -1602,9 +1602,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -1913,9 +1913,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -2226,9 +2226,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -2538,9 +2538,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -2846,9 +2846,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -3156,9 +3156,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -3465,9 +3465,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -3774,9 +3774,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -4083,9 +4083,9 @@ describe('New Order Tests', function() {
                 }
                 ])
 
-            NewOrderSocket.send(payload);
+            NewMarginOrderSocket.send(payload);
 
-        NewOrderSocket.onmessage = function (event) {
+        NewMarginOrderSocket.onmessage = function (event) {
             let data = JSON.parse(event.data)
             
             // Target the n message [0,"n",[1588148817.151,"on-req",null,null,[1187238099,null,1588148817151,"tBTCUSD",1588148817151,1588148817151,1,1,"LIMIT",null,null,null,0,"ACTIVE",null,null,500,0,0,0,null,null,null,0,null,null,null,null,"BFX",null,null,null],null,"SUCCESS","Submitting limit buy order for 1 BTC."]]]        
@@ -4247,6 +4247,7 @@ describe('New Order Tests', function() {
 
             // Target the oc message [0,"oc",[1187238160,null,1588158739438,"tBTCUSD",1588158739438,1588158739444,0,0.001,"MARKET",null,null,null,0,"EXECUTED @ 8150.0(0.001)",null,null,8150,8150,0,0,null,null,null,0,0,null,null,null,"BFX",null,null,null]]    
             if(data[1] == 'oc'){
+                NewMarginOrderSocket.close();
                 expect(data).to.not.be.null
 
                 //Returns 3 items, chan ID, type and order data
