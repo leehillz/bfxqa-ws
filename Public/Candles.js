@@ -25,36 +25,35 @@ describe('Candles Tests', function() {
             if(data.event !== 'info' && data.event !== 'subscribed'){
                 CandlesSocket.close();
                 expect(data).to.not.be.null
+                console.log(`Candles Data:`,JSON.stringify(data))
 
                 //Returns two items, Channel ID and data
                 expect(data.length).to.eq(2)
 
                 //MTS
                 expect(data[1][0][0]).to.be.a('number')
-                expect(data[1][0][0].toString().length).to.eq(13)
-                expect(data[1][0][0]).to.match(/[0-9]{13}/)
+                .and.to.match(/[0-9]{13}/)
 
                 //Open
                 expect(data[1][0][1]).to.be.a('number')
-                expect(data[1][0][1]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
 
                 //Close
                 expect(data[1][0][2]).to.be.a('number')
-                expect(data[1][0][2]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
 
                 //High
                 expect(data[1][0][3]).to.be.a('number')
-                expect(data[1][0][3]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
 
                 //Low
                 expect(data[1][0][4]).to.be.a('number')
-                expect(data[1][0][4]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
 
                 //Volume
                 expect(data[1][0][5]).to.be.a('number')
-                expect(data[1][0][5]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
                 
-                console.log(`Candles Data:`,JSON.stringify(data))
                 done()
                 }   
             }

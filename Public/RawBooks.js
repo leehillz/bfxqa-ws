@@ -26,23 +26,23 @@ describe('Raw Book Tests', function() {
             if(data.event !== 'info' && data.event !== 'subscribed'){
                 RawBookSocket.close();
                 expect(data).to.not.be.null
+                console.log(`Raw Book Data:`,JSON.stringify(data))
 
                 //Returns two items, Channel ID and data
                 expect(data.length).to.eq(2)
 
                 //Price
                 expect(data[1][1][0]).to.be.a('number')
-                expect(data[1][1][0]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
 
                 //Count
                 expect(data[1][1][1]).to.be.a('number')
-                expect(data[1][1][1]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
 
                 //Amount
                 expect(data[1][1][2]).to.be.a('number')
-                expect(data[1][1][2]).to.match(/[0-9]+[.]{0,1}[0-9]*/)
+                .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
                 
-                console.log(`Raw Book Data:`,JSON.stringify(data))
                 done()
                 }   
             }
