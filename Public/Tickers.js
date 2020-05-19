@@ -70,7 +70,7 @@ describe('Ticker Tests', function() {
                 //Low
                 expect(data[1][9]).to.be.a('number')
                 .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
-                .and.to.be.lessThan((data[1][8]))
+                .and.to.be.at.most((data[1][8]))
 
                 done()
                 }   
@@ -156,7 +156,7 @@ describe('Ticker Tests', function() {
                 //Low
                 expect(data[1][12]).to.be.a('number')
                 .and.to.match(/[0-9]+[.]{0,1}[0-9]*/)
-                .and.to.be.lessThan(data[1][11])
+                .and.to.be.at.most(data[1][11])
 
                 done()
                 }   

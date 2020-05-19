@@ -18,8 +18,6 @@ const payloadAuth = {
     authNonce, 
     authPayload,
     event: 'auth', // The connection event, will always equal 'auth'
-    //dms: 4, // Optional Deam-Man-Switch flag to cancel all orders when socket is closed
-    //filter: [] // Optional filter for the account info received (default = everything)
 }
 
 //Sleep timer
